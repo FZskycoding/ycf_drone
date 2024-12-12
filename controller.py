@@ -32,7 +32,9 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.connection = None        
+        self.connection = None
+        self.timer = QTimer()
+            
 
         #引入Map地圖
         map_plot = MapViewer(self.ui.Map_groupbox, width=5, height=4, dpi=100)
@@ -47,7 +49,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.time_updater.time_updated.connect(self.update_time_label)
         self.time_updater.start()
         #
-
         self.ui.connect_btn.clicked.connect(self.toggle_connection)
    
 
@@ -64,7 +65,8 @@ class MainWindow(QtWidgets.QMainWindow):
             
             self.connection = get_px4_information.connect_to_px4('COM4',115200)
             self.ui.connect_btn.setText("Disconnect")
-            self.update_gps()
+            self.timer.start(500)
+            self.timer.timeout.connect(self.update_gps)    
             self.compass_init()
             self.spiritlevel_init()
             self.acc_init()
@@ -96,9 +98,10 @@ class MainWindow(QtWidgets.QMainWindow):
     #引入Region地區名稱
     def update_gps(self):
         self.lon, self.lat = get_px4_information.get_gps_position(self.connection)
+        self.satellites = get_px4_information.get_satellites(self.connection)
         self.ui.Region_label.setText(Region_function.get_location_name(self.lat, self.lon))
         #引入Gps資訊
-        self.ui.GpsNum_label.setText("0")
+        self.ui.GpsNum_label.setText(str(self.satellites))
         self.ui.Lon_label.setText(str(self.lon))
         self.ui.Lat_label.setText(str(self.lat))
     #

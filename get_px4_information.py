@@ -74,6 +74,17 @@ def get_gps_position(connection):
             return lon, lat
         #return roll,pitch,yaw
 
+def get_satellites(connection):
+    while connection:
+        msg = connection.recv_match(blocking=True)
+        if not msg:
+            continue
+        msg_type = msg.get_type()
+        if msg_type == "GPS_RAW_INT":
+            satellites_visible = msg.satellites_visible
+            # print(satellites_visible)
+            return satellites_visible
+
 def get_compass(connection):
     while connection:
         msg = connection.recv_match(blocking=True)
@@ -85,5 +96,8 @@ def get_compass(connection):
             yaw = msg.yaw    # 航向角
             yaw = (yaw + math.pi / 2) % (2 * math.pi)  # 使 yaw 在 [0, 2π] 範圍內
             return yaw
+        
 
-# print(get_gps_position())
+# connection = connect_to_px4('COM4',115200)
+# print(get_satellites(connection))
+# print(get_gps_position(connection))
