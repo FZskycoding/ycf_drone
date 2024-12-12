@@ -1,0 +1,8 @@
+PyQt5
+folium
+geopy
+matplotlib
+numpy
+pymavlink
+pyserial
+PyQtWebEngine
