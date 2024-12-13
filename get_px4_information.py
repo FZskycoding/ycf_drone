@@ -35,7 +35,7 @@ def connect_to_px4(com,baud):
 
 def get_angular_velocity(connection):
     while connection:
-        msg = connection.recv_match(blocking=True)
+        msg = connection.recv_match(blocking=False)
         if not msg:
             continue
 
@@ -50,7 +50,7 @@ def get_angular_velocity(connection):
 
 def get_attitude(connection):
     while connection:
-        msg = connection.recv_match(blocking=True)
+        msg = connection.recv_match(blocking=False)
         if not msg:
             continue
         msg_type = msg.get_type()
@@ -64,7 +64,7 @@ def get_attitude(connection):
 
 def get_gps_position(connection):
     while connection:
-        msg = connection.recv_match(blocking=True)
+        msg = connection.recv_match(blocking=False)
         if not msg:
             continue
         msg_type = msg.get_type()
@@ -76,18 +76,21 @@ def get_gps_position(connection):
 
 def get_satellites(connection):
     while connection:
-        msg = connection.recv_match(blocking=True)
+        msg = connection.recv_match(blocking=False) #true:程式會一直等待數據到來。如果數據沒有按預期到達，程式會進入無限等待或卡住。
         if not msg:
             continue
         msg_type = msg.get_type()
-        if msg_type == "GPS_RAW_INT":
-            satellites_visible = msg.satellites_visible
-            # print(satellites_visible)
-            return satellites_visible
+        try:
+            msg = connection.recv_match(type="GPS_RAW_INT", blocking=False)
+            if msg:
+                return msg.satellites_visible
+        except Exception as e:
+            print(f"Error fetching satellites: {e}")
+            return None
 
 def get_compass(connection):
     while connection:
-        msg = connection.recv_match(blocking=True)
+        msg = connection.recv_match(blocking=False)
         if not msg:
             continue
         msg_type = msg.get_type()

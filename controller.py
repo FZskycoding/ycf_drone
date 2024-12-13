@@ -146,29 +146,4 @@ if __name__ == '__main__':
 
 
 
-        #引入ACC折線圖
-        # acc_plot = AccPlotCanvas(self.ui.Acc_groupbox, width=5, height=4, dpi=50)
-        # layout = self.ui.Acc_groupbox.layout()
-        # if layout is None:
-        #     layout = QtWidgets.QVBoxLayout(self.ui.Acc_groupbox)
-        #     self.ui.Acc_groupbox.setLayout(layout)
-        # layout.addWidget(acc_plot)
-        #
-
-        #引入Attitude折線圖
-        # att_plot = AttPlotCanvas(self.ui.Attitude_groupbox, width=5, height=4, dpi=50)
-        # layout = self.ui.Attitude_groupbox.layout()
-        # if layout is None:
-        #     layout = QtWidgets.QVBoxLayout(self.ui.Attitude_groupbox)
-        #     self.ui.Attitude_groupbox.setLayout(layout)
-        # layout.addWidget(att_plot)
-        #
-
-        #引入spiritlevel陀螺儀
-        # spi_plot = GyroscopeSimulator(self.ui.spiritlevel_groupbox, width=5, height=4, dpi=50)
-        # layout = self.ui.spiritlevel_groupbox.layout()
-        # if layout is None:
-        #     layout = QtWidgets.QVBoxLayout(self.ui.spiritlevel_groupbox)
-        #     self.ui.spiritlevel_groupbox.setLayout(layout)
-        # layout.addWidget(spi_plot)
-        #
+        
